@@ -30,7 +30,7 @@ private static Sistema instancia;
 				opcion = u.getRol();
 			}
 		}
-
+		
 		if (opcion.equals("Administrador")) {
 			MenuAdministrador m = new MenuAdministrador();
 			m.iniciarMenu(listProyecto, listTarea);
@@ -181,7 +181,7 @@ private static Sistema instancia;
 			 BufferedWriter bw = new BufferedWriter(fw)) {
 			
 			for (Proyecto p : this.listProyecto) {
-				String linea = p.getId() + "|" + p.getNombre() + "|" + p.getResponsable;
+				String linea = p.getId() + "|" + p.getNombre() + "|" + p.getResponsable();
 				bw.write(linea);
 				bw.newLine();
 			}

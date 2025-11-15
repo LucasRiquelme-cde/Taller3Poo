@@ -19,8 +19,10 @@ public class MenuAdministrador {
 
 			case 1:
 				verListaProyectos(listProyecto);
+				break;
 //			case 2: agregarEliminarProyecto(listProyecto);
 			case 3: agregarEliminarTarea(listProyecto, listTarea);
+				break;
 //			case 4: configEstrategia();
 //			case 5: generarReporte(); 
 			case 6:
@@ -53,7 +55,41 @@ public class MenuAdministrador {
 	}
 
 	private void eliminarTarea(ArrayList<Proyecto> listProyecto, ArrayList<Tarea> listTarea) {
-		//pendiente
+		Sistema s = Sistema.getSistema();
+		System.out.println();
+		System.out.println("--- Tareas Actuales ---");
+		verListaProyectos(listProyecto);
+		System.out.print("Ingrese el ID de la tarea a eliminar (ej: T001): ");
+		String idEliminar = escanearDesdeTeclado();
+		Tarea tareaEliminar = null;
+		for (Tarea t : listTarea) {
+			if (t.getId().equals(idEliminar)) {
+				tareaEliminar = t;
+				break;
+			}
+		}
+		
+		if (tareaEliminar == null) {
+			System.out.println("ERROR: Tarea con ID " + idEliminar + " no encontrada.");
+			return;
+		}
+		
+		Proyecto proyectoPadre = null;
+		for (Proyecto p : listProyecto) {
+			if (p.getId().equals(tareaEliminar.getProyecto())) {
+				proyectoPadre = p;
+				break;
+			}
+		}
+		
+		if (proyectoPadre != null) {
+			proyectoPadre.getListaTarea().remove(tareaEliminar);
+		}
+		
+		listTarea.remove(tareaEliminar);
+		s.guardarTareas();
+		
+		System.out.println("Tarea " + idEliminar + " eliminada exitosamente.");
 	}
 
 	private void agregarTarea(ArrayList<Proyecto> listProyecto, ArrayList<Tarea> listTarea) {

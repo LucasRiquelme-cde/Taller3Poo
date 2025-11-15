@@ -35,5 +35,8 @@ public class Proyecto {
 	public ArrayList<Tarea> getListaTarea() {
 		return listaTarea;
 	}
+	public String getResponsable() {
+		return responsable;
+	}
 
 }
