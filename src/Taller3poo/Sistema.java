@@ -1,22 +1,22 @@
 package Taller3poo;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.Scanner;
+import java.io.*;
+import java.util.*;
 
 public class Sistema {
 
-	private static Sistema instancia;
+private static Sistema instancia;
+	private ArrayList<Usuario> listUsuario;
+	private ArrayList<Proyecto> listProyecto;
+	private ArrayList<Tarea> listTarea;
+
 
 	public void sistema() throws FileNotFoundException {
-
+		
 		System.out.println("Iniciando programa: ");
-
-		ArrayList<Usuario> listUsuario = creadoraUsuarios();
-		ArrayList<Proyecto> listProyecto = creadoraProyectos();
-		ArrayList<Tarea> listTarea = creadoraTareas(listProyecto);
+		this.listUsuario = creadoraUsuarios();
+		this.listProyecto = creadoraProyectos();
+		this.listTarea = creadoraTareas(listProyecto);
 
 		for (int i = 0; i < listUsuario.size(); i++) {
 			System.out.println(listUsuario.get(i));
@@ -43,19 +43,28 @@ public class Sistema {
 		}
 
 	}
+	
+	public ArrayList<Tarea> getListTarea() {
+		return listTarea;
+	}
+	
+	public ArrayList<Usuario> getListUsuario() {
+		return listUsuario;
+	}
 
 	private String ingresarUsuario(ArrayList<Usuario> listUsuario) {
 
-		System.out.println("Ingresa usuario: ");
+		System.out.print("Ingresa usuario: ");
 
 		String usuario = escanearTecldo();
 		for (Usuario u : listUsuario) {
 			if (u.getUsername().equals(usuario)) {
 				System.out.println("Usuario encontrado");
-				System.out.println("Ingrese contraseña:");
+				System.out.print("Ingrese contraseña: ");
 				String contraseña = escanearTecldo();
 				if (u.getContraseña().equals(contraseña)) {
 					System.out.println("Contraseña Correcta");
+					System.out.println();
 					return u.getUsername();
 				} else {
 					System.out.println("Contraseña Incorrecta");
@@ -140,5 +149,47 @@ public class Sistema {
 		}
 		return instancia;
 	}
-
+	public boolean verificarDisponibilidad(String responsable, String fecha, ArrayList<Tarea> listaTareas) {
+		for (Tarea t : listaTareas) {
+			if (t.getResponsable().equalsIgnoreCase(responsable) && t.getFecha().equals(fecha)) {
+				return false;
+			}
+		}
+		return true;
+	}
+	public void guardarTareas() {
+		try (FileWriter fw = new FileWriter("tareas.txt");
+			 BufferedWriter bw = new BufferedWriter(fw)) {
+			
+			for (Tarea t : this.listTarea) {
+				String linea = t.getProyecto() +"|" + t.getId()+"|" + t.getTipo()+"|" + t.getDesc()+"|" + t.getEstado()+"|" +t.getResponsable()+ "|"+ t.getComplejidad()+ "|" +t.getFecha();
+				bw.write(linea);
+				bw.newLine();
+			}
+			System.out.println("Tareas guardadas exitosamente en tareas.txt.");
+			
+		} catch (IOException e) {
+			System.out.println("Error al guardar las tareas en el archivo: " + e.getMessage());
+		}
+	}
+	public ArrayList<Proyecto> getListProyecto() {
+		return listProyecto;
+	}
+	
+	public void guardarProyectos() {
+		try (FileWriter fw = new FileWriter("proyectos.txt");
+			 BufferedWriter bw = new BufferedWriter(fw)) {
+			
+			for (Proyecto p : this.listProyecto) {
+				String linea = p.getId() + "|" + p.getNombre() + "|" + p.getResponsable;
+				bw.write(linea);
+				bw.newLine();
+			}
+			System.out.println("Proyectos guardados exitosamente en proyectos.txt.");
+			
+		} catch (IOException e) {
+			System.out.println("Error al guardar los proyectos en el archivo: " + e.getMessage());
+		}
+	}
 }
+

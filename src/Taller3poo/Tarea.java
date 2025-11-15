@@ -22,6 +22,54 @@ public abstract class Tarea {
 				+ ", responsable=" + responsable + ", complejidad=" + complejidad + ", fecha=" + fecha + "]";
 	}
 
+	public String getProyecto() {
+		return proyecto;
+	}
+
+	public void setProyecto(String proyecto) {
+		this.proyecto = proyecto;
+	}
+
+	public String getTipo() {
+		return tipo;
+	}
+
+	public void setTipo(String tipo) {
+		this.tipo = tipo;
+	}
+
+	public String getDesc() {
+		return desc;
+	}
+
+	public void setDesc(String desc) {
+		this.desc = desc;
+	}
+
+	public String getComplejidad() {
+		return complejidad;
+	}
+
+	public void setComplejidad(String complejidad) {
+		this.complejidad = complejidad;
+	}
+
+	public String getFecha() {
+		return fecha;
+	}
+
+	public void setFecha(String fecha) {
+		this.fecha = fecha;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public void setResponsable(String responsable) {
+		this.responsable = responsable;
+	}
+
 	public String getEstado() {
 		return estado;
 	}

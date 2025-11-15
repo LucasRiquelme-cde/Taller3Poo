@@ -1,14 +1,13 @@
 package Taller3poo;
 
-import java.util.ArrayList;
-import java.util.Scanner;
+import java.util.*;
 
 public class MenuUsuario {
 
 	public void iniciarMenu(ArrayList<Proyecto> listProyecto, ArrayList<Tarea> listTarea, String username) {
 
 		System.out.println("Bienvenido colaborador, qué deseas hacer?");
-
+		boolean validacion= true;
 		do {
 			pirntearOpciones();
 			int op = Integer.valueOf(escanearDesdeTeclado());
@@ -17,16 +16,20 @@ public class MenuUsuario {
 
 			case 1:
 				verListaProyectos(listProyecto);
+				break;
 			case 2:
 				verTareasAsignadas(username, listTarea);
+				break;
 			case 3:
 				actualizarEstadoDeTarea(listTarea);
+				break;
 //			case 4: aplicarVisitorEnTareas();
 			case 5:
+				validacion= false;
 				break;
 			}
 
-		} while (true);
+		} while (validacion== true);
 
 	}
 
@@ -53,10 +56,15 @@ public class MenuUsuario {
 				switch (op) {
 				case 1:
 					t.setEstado("Pendiente");
+					break;
+					
 				case 2:
 					t.setEstado("En Progreso");
+					break;
+					
 				case 3:
 					t.setEstado("Completada");
+					break;
 
 				}
 			}

@@ -1,6 +1,6 @@
 package Taller3poo;
 
-import java.util.ArrayList;
+import java.util.*;
 
 public class Proyecto {
 

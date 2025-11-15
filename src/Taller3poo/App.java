@@ -1,6 +1,6 @@
 package Taller3poo;
 
-import java.io.FileNotFoundException;
+import java.io.*;
 
 public class App {
 
