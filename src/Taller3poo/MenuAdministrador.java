@@ -20,7 +20,8 @@ public class MenuAdministrador {
 			case 1:
 				verListaProyectos(listProyecto);
 				break;
-//			case 2: agregarEliminarProyecto(listProyecto);
+			case 2: agregarEliminarProyecto(listProyecto, listTarea);
+				break;
 			case 3: agregarEliminarTarea(listProyecto, listTarea);
 				break;
 //			case 4: configEstrategia();
@@ -34,6 +35,77 @@ public class MenuAdministrador {
 
 		} while (validacion1==true);
 
+	}
+
+	private void agregarEliminarProyecto(ArrayList<Proyecto> listProyecto, ArrayList<Tarea> listTarea) {
+		System.out.println();
+		System.out.println("--- Gestión de Proyectos ---");
+		System.out.println("1) Agregar Proyecto");
+		System.out.println("2) Eliminar Proyecto");
+		System.out.println("Ingrese opción:");
+		String op = escanearDesdeTeclado();
+		if (op.equals("1")) {
+			agregarProyecto(listProyecto);
+		} else if (op.equals("2")) {
+			eliminarProyecto(listProyecto, listTarea);
+		} else {
+			System.out.println("Opcion invalida.");
+		}
+	}
+
+	private void eliminarProyecto(ArrayList<Proyecto> listProyecto, ArrayList<Tarea> listTarea) {
+		Sistema s = Sistema.getSistema();
+		System.out.println();
+		System.out.println("--- Proyectos Actuales ---");
+		for (Proyecto p : listProyecto) {
+			System.out.println(p.getId() + " | " + p.getNombre());
+		}
+		
+		System.out.print("Ingrese el ID del proyecto a eliminar (ej: PR001): ");
+		String idEliminar = escanearDesdeTeclado();
+		Proyecto proyectoEliminar = null;
+		for (Proyecto p : listProyecto) {
+			if (p.getId().equals(idEliminar)) {
+				proyectoEliminar = p;
+				break;
+			}
+		}
+		
+		if (proyectoEliminar == null) {
+			System.out.println("ERROR: Proyecto con ID " + idEliminar + " no encontrado.");
+			return;
+		}
+		
+		listProyecto.remove(proyectoEliminar);
+		Iterator<Tarea> iter = listTarea.iterator();
+		int tareasEliminadas = 0;
+		while (iter.hasNext()) {
+			Tarea t = iter.next();
+			if (t.getProyecto().equals(idEliminar)) {
+				iter.remove();
+				tareasEliminadas++;
+			}
+		}
+		
+		s.guardarProyectos();
+		s.guardarTareas();
+		System.out.println("Proyecto " + idEliminar + " eliminado.");
+		System.out.println(tareasEliminadas + " tareas asociadas fueron eliminadas.");
+	}
+
+	private void agregarProyecto(ArrayList<Proyecto> listProyecto) {
+		Sistema s = Sistema.getSistema();
+		System.out.print("Ingrese Nombre del nuevo proyecto: ");
+		String nombre = escanearDesdeTeclado();
+		System.out.print("Ingrese Responsable del proyecto (Username): ");
+		String responsable = escanearDesdeTeclado();
+		String nuevoId = "PR" + String.format("%03d", listProyecto.size() + 1); 
+		System.out.println("ID Proyecto a crear: " + nuevoId);
+		Proyecto nuevoProyecto = new Proyecto(nuevoId, nombre, responsable);
+		listProyecto.add(nuevoProyecto);
+		s.guardarProyectos();
+		System.out.println("Proyecto " + nuevoId + " (" + nombre + ") creado exitosamente.");
+		
 	}
 
 	private void agregarEliminarTarea(ArrayList<Proyecto> listProyecto, ArrayList<Tarea> listTarea) {
