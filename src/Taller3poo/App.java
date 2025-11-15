@@ -1,11 +1,11 @@
 package Taller3poo;
 
-
+import java.io.FileNotFoundException;
 
 public class App {
 
-	public static void main(String[] args) {
-		System.out.println("hrno no tokes nadaaaaa");
-		System.out.println("testinggggg");
+	public static void main(String[] args) throws FileNotFoundException {
+		Sistema s = Sistema.getSistema();
+		s.sistema();
 	}
 }
