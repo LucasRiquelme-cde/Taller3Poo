@@ -42,7 +42,7 @@ public class MenuAdministrador {
 		System.out.println("--- Gestión de Proyectos ---");
 		System.out.println("1) Agregar Proyecto");
 		System.out.println("2) Eliminar Proyecto");
-		System.out.println("Ingrese opción:");
+		System.out.print("Ingrese opción: ");
 		String op = escanearDesdeTeclado();
 		if (op.equals("1")) {
 			agregarProyecto(listProyecto);
@@ -91,6 +91,7 @@ public class MenuAdministrador {
 		s.guardarTareas();
 		System.out.println("Proyecto " + idEliminar + " eliminado.");
 		System.out.println(tareasEliminadas + " tareas asociadas fueron eliminadas.");
+		System.out.println();
 	}
 
 	private void agregarProyecto(ArrayList<Proyecto> listProyecto) {
@@ -105,6 +106,7 @@ public class MenuAdministrador {
 		listProyecto.add(nuevoProyecto);
 		s.guardarProyectos();
 		System.out.println("Proyecto " + nuevoId + " (" + nombre + ") creado exitosamente.");
+		System.out.println();
 		
 	}
 
@@ -143,6 +145,7 @@ public class MenuAdministrador {
 		
 		if (tareaEliminar == null) {
 			System.out.println("ERROR: Tarea con ID " + idEliminar + " no encontrada.");
+			System.out.println();
 			return;
 		}
 		
@@ -236,9 +239,6 @@ public class MenuAdministrador {
 			}
 			System.out.println(" ");
 		}
-
-		System.out.println(" ");
-
 	}
 
 	private String escanearDesdeTeclado() {
@@ -253,6 +253,7 @@ public class MenuAdministrador {
 	}
 
 	private void pirntearOpciones() {
+		System.out.println();
 		System.out.println("1) Ver lista completa de proyectos y tareas:");
 		System.out.println("2) Agregar o eliminar un proyecto:");
 		System.out.println("3) Agregar o eliminar una tarea en un proyecto:");
