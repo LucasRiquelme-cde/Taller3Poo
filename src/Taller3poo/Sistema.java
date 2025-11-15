@@ -23,7 +23,7 @@ public class Sistema {
 		
 		if (opcion.equals("Administrador")) {
 			MenuAdministrador m = new MenuAdministrador();
-			m.iniciarMenu();
+			//m.iniciarMenu();
 			
 		} else {
 			MenuUsuario me = new MenuUsuario();
