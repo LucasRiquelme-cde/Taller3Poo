@@ -5,8 +5,6 @@ import java.util.*;
 public class MenuUsuario {
 
 	public void iniciarMenu(ArrayList<Proyecto> listProyecto, ArrayList<Tarea> listTarea, String username) {
-
-		System.out.println("Bienvenido colaborador, qué deseas hacer?");
 		boolean validacion= true;
 		do {
 			pirntearOpciones();
@@ -95,6 +93,7 @@ public class MenuUsuario {
 	}
 
 	private void pirntearOpciones() {
+		System.out.println("\nBienvenido colaborador, qué deseas hacer?");
 		System.out.println("1) Ver proyectos disponibles:");
 		System.out.println("2) Ver tareas asignadas:");
 		System.out.println("3) Actualizar estado de una tarea:");

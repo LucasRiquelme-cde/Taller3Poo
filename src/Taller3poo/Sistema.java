@@ -64,7 +64,6 @@ private static Sistema instancia;
 				String contraseña = escanearTecldo();
 				if (u.getContraseña().equals(contraseña)) {
 					System.out.println("Contraseña Correcta");
-					System.out.println();
 					return u.getUsername();
 				} else {
 					System.out.println("Contraseña Incorrecta");
