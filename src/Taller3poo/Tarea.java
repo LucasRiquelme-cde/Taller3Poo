@@ -18,8 +18,8 @@ public abstract class Tarea {
 
 	@Override
 	public String toString() {
-		return "Tarea [proyecto=" + proyecto + ", id=" + id + ", tipo=" + tipo + ", desc=" + desc + ", estado=" + estado
-				+ ", responsable=" + responsable + ", complejidad=" + complejidad + ", fecha=" + fecha + "]";
+		return "[ID: " + id + ", Tipo: " + tipo + ", Descripción: " + desc + ", Estado: " + estado
+				+ ", Responsable: " + responsable + ", Complejidad: " + complejidad + ", Fecha: " + fecha + "]";
 	}
 
 	public String getProyecto() {

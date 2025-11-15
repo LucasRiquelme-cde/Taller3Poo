@@ -11,7 +11,7 @@ private static Sistema instancia;
 	private ArrayList<Tarea> listTarea;
 
 
-	public void sistema() throws FileNotFoundException {
+	public void sistema() throws IOException {
 		
 		System.out.println("Iniciando programa: ");
 		this.listUsuario = creadoraUsuarios();

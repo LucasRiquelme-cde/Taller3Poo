@@ -38,4 +38,17 @@ public class Proyecto {
 		return responsable;
 	}
 
+	public String reporte() {
+		String x = "";
+		x = x + "Proyecto: " + this.nombre + ", ID: " + this.id + ", Responsable: " + this.responsable + "Tareas: ";
+		
+		for (Tarea t : this.listaTarea) {
+			x = x + t.toString();
+		}
+		
+		return x;
+	}
+	
+	 
+
 }

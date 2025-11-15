@@ -1,17 +1,19 @@
 package Taller3poo;
 
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.*;
 
 public class MenuAdministrador {
 
-	public void iniciarMenu(ArrayList<Proyecto> listProyecto, ArrayList<Tarea> listTarea) {
+	public void iniciarMenu(ArrayList<Proyecto> listProyecto, ArrayList<Tarea> listTarea) throws IOException {
 		System.out.println("Bienvenido administrador, qué desea hacer?");
-		boolean validacion1= true;
+		boolean validacion1 = true;
 		do {
 			pirntearOpciones();
 			System.out.print("Ingrese una opcion: ");
 			int op = Integer.valueOf(escanearDesdeTeclado());
-			if(op<1 || op>6) {
+			if (op < 1 || op > 6) {
 				System.out.println("Opcion invalida");
 				System.out.println();
 			}
@@ -20,20 +22,44 @@ public class MenuAdministrador {
 			case 1:
 				verListaProyectos(listProyecto);
 				break;
-			case 2: agregarEliminarProyecto(listProyecto, listTarea);
+			case 2:
+				agregarEliminarProyecto(listProyecto, listTarea);
 				break;
-			case 3: agregarEliminarTarea(listProyecto, listTarea);
+			case 3:
+				agregarEliminarTarea(listProyecto, listTarea);
 				break;
 //			case 4: configEstrategia();
-//			case 5: generarReporte(); 
+			case 5:
+				generarReporte(listProyecto);
+				break;
 			case 6:
 				System.out.println("Saliendo del menu...");
-				validacion1= false;
+				validacion1 = false;
 				break;
 
 			}
 
-		} while (validacion1==true);
+		} while (validacion1 == true);
+
+	}
+
+	private void generarReporte(ArrayList<Proyecto> listProyecto) throws IOException {
+		System.out.println(" ");
+		System.out.println("Generando reporte...");
+
+		try (FileWriter writer = new FileWriter("reporte.txt", false)) {
+
+			for (Proyecto p : listProyecto) {
+				
+				writer.write(p.reporte() + "\n");
+
+			}
+
+			System.out.println("Reporte generado correctamente");
+
+		} catch (Exception e) {
+			System.out.println("Error " + e.getMessage());
+		}
 
 	}
 
@@ -60,7 +86,7 @@ public class MenuAdministrador {
 		for (Proyecto p : listProyecto) {
 			System.out.println(p.getId() + " | " + p.getNombre());
 		}
-		
+
 		System.out.print("Ingrese el ID del proyecto a eliminar (ej: PR001): ");
 		String idEliminar = escanearDesdeTeclado();
 		Proyecto proyectoEliminar = null;
@@ -70,12 +96,12 @@ public class MenuAdministrador {
 				break;
 			}
 		}
-		
+
 		if (proyectoEliminar == null) {
 			System.out.println("ERROR: Proyecto con ID " + idEliminar + " no encontrado.");
 			return;
 		}
-		
+
 		listProyecto.remove(proyectoEliminar);
 		Iterator<Tarea> iter = listTarea.iterator();
 		int tareasEliminadas = 0;
@@ -86,7 +112,7 @@ public class MenuAdministrador {
 				tareasEliminadas++;
 			}
 		}
-		
+
 		s.guardarProyectos();
 		s.guardarTareas();
 		System.out.println("Proyecto " + idEliminar + " eliminado.");
@@ -100,14 +126,14 @@ public class MenuAdministrador {
 		String nombre = escanearDesdeTeclado();
 		System.out.print("Ingrese Responsable del proyecto (Username): ");
 		String responsable = escanearDesdeTeclado();
-		String nuevoId = "PR" + String.format("%03d", listProyecto.size() + 1); 
+		String nuevoId = "PR" + String.format("%03d", listProyecto.size() + 1);
 		System.out.println("ID Proyecto a crear: " + nuevoId);
 		Proyecto nuevoProyecto = new Proyecto(nuevoId, nombre, responsable);
 		listProyecto.add(nuevoProyecto);
 		s.guardarProyectos();
 		System.out.println("Proyecto " + nuevoId + " (" + nombre + ") creado exitosamente.");
 		System.out.println();
-		
+
 	}
 
 	private void agregarEliminarTarea(ArrayList<Proyecto> listProyecto, ArrayList<Tarea> listTarea) {
@@ -117,7 +143,7 @@ public class MenuAdministrador {
 		System.out.println("2) Eliminar Tarea");
 		System.out.println("Ingrese opción:");
 		String op = escanearDesdeTeclado();
-		
+
 		if (op.equals("1")) {
 			agregarTarea(listProyecto, listTarea);
 		} else if (op.equals("2")) {
@@ -125,7 +151,7 @@ public class MenuAdministrador {
 		} else {
 			System.out.println("Opcion invalida.");
 		}
-		
+
 	}
 
 	private void eliminarTarea(ArrayList<Proyecto> listProyecto, ArrayList<Tarea> listTarea) {
@@ -142,13 +168,13 @@ public class MenuAdministrador {
 				break;
 			}
 		}
-		
+
 		if (tareaEliminar == null) {
 			System.out.println("ERROR: Tarea con ID " + idEliminar + " no encontrada.");
 			System.out.println();
 			return;
 		}
-		
+
 		Proyecto proyectoPadre = null;
 		for (Proyecto p : listProyecto) {
 			if (p.getId().equals(tareaEliminar.getProyecto())) {
@@ -156,19 +182,19 @@ public class MenuAdministrador {
 				break;
 			}
 		}
-		
+
 		if (proyectoPadre != null) {
 			proyectoPadre.getListaTarea().remove(tareaEliminar);
 		}
-		
+
 		listTarea.remove(tareaEliminar);
 		s.guardarTareas();
-		
+
 		System.out.println("Tarea " + idEliminar + " eliminada exitosamente.");
 	}
 
 	private void agregarTarea(ArrayList<Proyecto> listProyecto, ArrayList<Tarea> listTarea) {
-		Sistema s= Sistema.getSistema();
+		Sistema s = Sistema.getSistema();
 		System.out.println("Proyectos disponibles (ID | Nombre):");
 		for (Proyecto p : listProyecto) {
 			System.out.println(p.getId() + " | " + p.getNombre());
@@ -182,40 +208,42 @@ public class MenuAdministrador {
 				break;
 			}
 		}
-		
+
 		if (proyectoSeleccionado == null) {
 			System.out.println("ERROR: Proyecto con ID " + idProyecto + " no encontrado.");
 			return;
 		}
-		
-		String nuevoId = "T" + String.format("%03d", listTarea.size() + 1); 
+
+		String nuevoId = "T" + String.format("%03d", listTarea.size() + 1);
 		System.out.println("ID Tarea a crear: " + nuevoId);
-		
+
 		System.out.print("Tipo de tarea (Bug, Feature, Documentacion): ");
 		String tipo = escanearDesdeTeclado();
-		
+
 		System.out.print("Descripcion: ");
 		String desc = escanearDesdeTeclado();
-		
+
 		String estadoInicial = "Pendiente";
-		
+
 		System.out.print("Responsable (Username): ");
 		String responsable = escanearDesdeTeclado();
-		
+
 		System.out.print("Complejidad (Baja, Media, Alta): ");
 		String complejidad = escanearDesdeTeclado();
-		
+
 		System.out.print("Fecha de creacion (YYYY-MM-DD): ");
 		String fecha = escanearDesdeTeclado();
-		
+
 		boolean disponible = s.verificarDisponibilidad(responsable, fecha, listTarea);
-		
+
 		if (!disponible) {
-			System.out.println("ERROR: El colaborador " + responsable + " ya tiene una tarea asignada el " + fecha + ". Tarea no creada.");
+			System.out.println("ERROR: El colaborador " + responsable + " ya tiene una tarea asignada el " + fecha
+					+ ". Tarea no creada.");
 			return;
 		}
 		TareaFactory factory = new TareaFactory();
-		Tarea nuevaTarea = factory.crearTarea(idProyecto, nuevoId, tipo, desc, estadoInicial, responsable, complejidad, fecha);
+		Tarea nuevaTarea = factory.crearTarea(idProyecto, nuevoId, tipo, desc, estadoInicial, responsable, complejidad,
+				fecha);
 
 		if (nuevaTarea != null) {
 			listTarea.add(nuevaTarea);
