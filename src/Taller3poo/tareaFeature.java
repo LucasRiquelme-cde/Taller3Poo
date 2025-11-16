@@ -7,5 +7,8 @@ public class tareaFeature extends Tarea {
 		super(proyecto, id, tipo, desc, estado, responsable, complejidad, fecha);
 		
 	}
+	public void aceptar(TareaVisitor visitor) {
+		visitor.visit(this);
+	}
 
 }

@@ -7,7 +7,7 @@ import java.util.*;
 public class MenuAdministrador {
 
 	public void iniciarMenu(ArrayList<Proyecto> listProyecto, ArrayList<Tarea> listTarea) throws IOException {
-		System.out.println("Bienvenido administrador, qué desea hacer?");
+		System.out.println("\nBienvenido administrador, qué desea hacer?");
 		boolean validacion1 = true;
 		do {
 			pirntearOpciones();
@@ -28,7 +28,9 @@ public class MenuAdministrador {
 			case 3:
 				agregarEliminarTarea(listProyecto, listTarea);
 				break;
-//			case 4: configEstrategia();
+			case 4:
+				configEstrategia(listTarea);
+				break;
 			case 5:
 				generarReporte(listProyecto);
 				break;
@@ -43,6 +45,42 @@ public class MenuAdministrador {
 
 	}
 
+	private void configEstrategia(ArrayList<Tarea> listTarea) {
+		System.out.println("\n--- Asignar Prioridades (Strategy) ---");
+		System.out.println("Selecciona la estrategia de priorización:");
+		System.out.println("1) Fecha de Creación (Más antiguas primero)");
+		System.out.println("2) Impacto (Bug > Feature > Doc)");
+		System.out.println("3) Complejidad (Alta > Media > Baja)");
+		System.out.print("Ingrese opción: ");
+
+		String op = escanearDesdeTeclado();
+		EstrategiaPriorizacion estrategiaSeleccionada = null;
+		switch (op) {
+		case "1":
+			estrategiaSeleccionada = new PrioridadFecha();
+			System.out.println("Estrategia: Prioridad por Fecha.");
+			break;
+		case "2":
+			estrategiaSeleccionada = new PrioridadImpacto();
+			System.out.println("Estrategia: Prioridad por Impacto.");
+			break;
+		case "3":
+			estrategiaSeleccionada = new PrioridadComplejidad();
+			System.out.println("Estrategia: Prioridad por Complejidad.");
+			break;
+		default:
+			System.out.println("Opción inválida. No se cambió la estrategia.");
+			return;
+		}
+		estrategiaSeleccionada.ordenar(listTarea);
+		System.out.println("\n--- Lista de Tareas Reordenada ---");
+		for (Tarea t : listTarea) {
+			System.out.println(t);
+		}
+		System.out.println("----------------------------------");
+
+	}
+
 	private void generarReporte(ArrayList<Proyecto> listProyecto) throws IOException {
 		System.out.println(" ");
 		System.out.println("Generando reporte...");
@@ -50,7 +88,7 @@ public class MenuAdministrador {
 		try (FileWriter writer = new FileWriter("reporte.txt", false)) {
 
 			for (Proyecto p : listProyecto) {
-				
+
 				writer.write(p.reporte() + "\n");
 
 			}

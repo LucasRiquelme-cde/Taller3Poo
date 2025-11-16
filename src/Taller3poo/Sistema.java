@@ -5,22 +5,17 @@ import java.util.*;
 
 public class Sistema {
 
-private static Sistema instancia;
+	private static Sistema instancia;
 	private ArrayList<Usuario> listUsuario;
 	private ArrayList<Proyecto> listProyecto;
 	private ArrayList<Tarea> listTarea;
 
-
 	public void sistema() throws IOException {
-		
-		System.out.println("Iniciando programa: ");
+
+		System.out.println("Iniciando el programa... ");
 		this.listUsuario = creadoraUsuarios();
 		this.listProyecto = creadoraProyectos();
 		this.listTarea = creadoraTareas(listProyecto);
-
-		for (int i = 0; i < listUsuario.size(); i++) {
-			System.out.println(listUsuario.get(i));
-		}
 
 		String username = ingresarUsuario(listUsuario);
 
@@ -30,7 +25,7 @@ private static Sistema instancia;
 				opcion = u.getRol();
 			}
 		}
-		
+
 		if (opcion.equals("Administrador")) {
 			MenuAdministrador m = new MenuAdministrador();
 			m.iniciarMenu(listProyecto, listTarea);
@@ -43,11 +38,11 @@ private static Sistema instancia;
 		}
 
 	}
-	
+
 	public ArrayList<Tarea> getListTarea() {
 		return listTarea;
 	}
-	
+
 	public ArrayList<Usuario> getListUsuario() {
 		return listUsuario;
 	}
@@ -148,6 +143,7 @@ private static Sistema instancia;
 		}
 		return instancia;
 	}
+
 	public boolean verificarDisponibilidad(String responsable, String fecha, ArrayList<Tarea> listaTareas) {
 		for (Tarea t : listaTareas) {
 			if (t.getResponsable().equalsIgnoreCase(responsable) && t.getFecha().equals(fecha)) {
@@ -156,39 +152,39 @@ private static Sistema instancia;
 		}
 		return true;
 	}
+
 	public void guardarTareas() {
-		try (FileWriter fw = new FileWriter("tareas.txt");
-			 BufferedWriter bw = new BufferedWriter(fw)) {
-			
+		try (FileWriter fw = new FileWriter("tareas.txt"); BufferedWriter bw = new BufferedWriter(fw)) {
+
 			for (Tarea t : this.listTarea) {
-				String linea = t.getProyecto() +"|" + t.getId()+"|" + t.getTipo()+"|" + t.getDesc()+"|" + t.getEstado()+"|" +t.getResponsable()+ "|"+ t.getComplejidad()+ "|" +t.getFecha();
+				String linea = t.getProyecto() + "|" + t.getId() + "|" + t.getTipo() + "|" + t.getDesc() + "|"
+						+ t.getEstado() + "|" + t.getResponsable() + "|" + t.getComplejidad() + "|" + t.getFecha();
 				bw.write(linea);
 				bw.newLine();
 			}
 			System.out.println("Tareas guardadas exitosamente en tareas.txt.");
-			
+
 		} catch (IOException e) {
 			System.out.println("Error al guardar las tareas en el archivo: " + e.getMessage());
 		}
 	}
+
 	public ArrayList<Proyecto> getListProyecto() {
 		return listProyecto;
 	}
-	
+
 	public void guardarProyectos() {
-		try (FileWriter fw = new FileWriter("proyectos.txt");
-			 BufferedWriter bw = new BufferedWriter(fw)) {
-			
+		try (FileWriter fw = new FileWriter("proyectos.txt"); BufferedWriter bw = new BufferedWriter(fw)) {
+
 			for (Proyecto p : this.listProyecto) {
 				String linea = p.getId() + "|" + p.getNombre() + "|" + p.getResponsable();
 				bw.write(linea);
 				bw.newLine();
 			}
 			System.out.println("Proyectos guardados exitosamente en proyectos.txt.");
-			
+
 		} catch (IOException e) {
 			System.out.println("Error al guardar los proyectos en el archivo: " + e.getMessage());
 		}
 	}
 }
-

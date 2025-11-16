@@ -85,5 +85,6 @@ public abstract class Tarea {
 	public String getResponsable() {
 		return responsable;
 	}
+	public abstract void aceptar(TareaVisitor visitor);
 
 }

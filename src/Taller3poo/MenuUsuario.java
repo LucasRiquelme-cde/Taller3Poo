@@ -5,7 +5,7 @@ import java.util.*;
 public class MenuUsuario {
 
 	public void iniciarMenu(ArrayList<Proyecto> listProyecto, ArrayList<Tarea> listTarea, String username) {
-		boolean validacion= true;
+		boolean validacion = true;
 		do {
 			pirntearOpciones();
 			int op = Integer.valueOf(escanearDesdeTeclado());
@@ -21,14 +21,50 @@ public class MenuUsuario {
 			case 3:
 				actualizarEstadoDeTarea(listTarea);
 				break;
-//			case 4: aplicarVisitorEnTareas();
+			case 4:
+				aplicarVisitorEnTareas(listTarea);
 			case 5:
-				validacion= false;
+				validacion = false;
 				break;
 			}
 
-		} while (validacion== true);
+		} while (validacion == true);
 
+	}
+
+	private void aplicarVisitorEnTareas(ArrayList<Tarea> listTarea) {
+		System.out.println("Tus tareas actuales:");
+
+		int cont = 0;
+		for (Tarea t : listTarea) {
+			System.out.println(cont+1+") " + t);
+			cont++;
+		}
+
+		if (cont == 0) {
+			System.out.println("(No tienes tareas asignadas)");
+			return;
+		}
+
+		System.out.print("Ingrese el ID de la tarea para ver su impacto: ");
+		String idTarea = escanearDesdeTeclado();
+
+		Tarea tareaSeleccionada = null;
+		for (Tarea t : listTarea) {
+			if (t.getId().equals(idTarea)) {
+				tareaSeleccionada = t;
+				break;
+			}
+		}
+
+		if (tareaSeleccionada == null) {
+			System.out.println("ERROR: Tarea no encontrada.");
+			return;
+		}
+
+		TareaVisitor visitor = new ActivarVisitor();
+
+		tareaSeleccionada.aceptar(visitor);
 	}
 
 	private void verTareasAsignadas(String username, ArrayList<Tarea> listTarea) {
@@ -55,11 +91,11 @@ public class MenuUsuario {
 				case 1:
 					t.setEstado("Pendiente");
 					break;
-					
+
 				case 2:
 					t.setEstado("En Progreso");
 					break;
-					
+
 				case 3:
 					t.setEstado("Completada");
 					break;
