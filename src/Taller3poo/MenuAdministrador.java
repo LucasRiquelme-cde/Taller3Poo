@@ -4,8 +4,28 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.*;
 
+/**
+ * Clase que controla todo lo que puede hacer el Administrador.
+ * <p>
+ * Es el centro de mando. Desde aquí se gestionan los proyectos y tareas,
+ * se generan reportes y se decide cómo priorizar el trabajo (usando Patrón Strategy).
+ * </p>
+ * @author Matías Collao
+ * @author Lucas Riquelme
+ * @version 1.0
+ */
 public class MenuAdministrador {
-
+	
+	/**
+	 * Inicia el bucle principal del menú del administrador.
+	 * <p>
+	 * Mantiene al usuario dentro del sistema mostrando las opciones una y otra vez
+	 * hasta que decida salir (Opción 6).
+	 * </p>
+	 * @param listProyecto La lista de todos los proyectos actuales.
+	 * @param listTarea La lista global de todas las tareas.
+	 * @throws IOException Si ocurre un error al guardar o leer archivos.
+	 */
 	public void iniciarMenu(ArrayList<Proyecto> listProyecto, ArrayList<Tarea> listTarea) throws IOException {
 		System.out.println("\nBienvenido administrador, qué desea hacer?");
 		boolean validacion1 = true;
@@ -44,7 +64,15 @@ public class MenuAdministrador {
 		} while (validacion1 == true);
 
 	}
-
+	
+	/**
+	 * Implementación del Patrón Strategy.
+	 * <p>
+	 * Permite elegir "al vuelo" cómo queremos ordenar las tareas (por fecha,
+	 * impacto o complejidad) y aplica ese orden inmediatamente a la lista.
+	 * </p>
+	 * @param listTarea La lista de tareas que vamos a reordenar.
+	 */
 	private void configEstrategia(ArrayList<Tarea> listTarea) {
 		System.out.println("\n--- Asignar Prioridades (Strategy) ---");
 		System.out.println("Selecciona la estrategia de priorización:");
@@ -80,7 +108,15 @@ public class MenuAdministrador {
 		System.out.println("----------------------------------");
 
 	}
-
+	
+	/**
+	 * Crea un archivo de texto (reporte.txt) con el estado actual de todo.
+	 * <p>
+	 * Recorre cada proyecto y escribe sus detalles y tareas en el archivo.
+	 * </p>
+	 * @param listProyecto Lista de proyectos a incluir en el reporte.
+	 * @throws IOException Si falla la escritura del archivo.
+	 */
 	private void generarReporte(ArrayList<Proyecto> listProyecto) throws IOException {
 		System.out.println(" ");
 		System.out.println("Generando reporte...");
@@ -100,7 +136,10 @@ public class MenuAdministrador {
 		}
 
 	}
-
+	
+	/**
+	 * Submenú simple para gestionar Proyectos (Crear o Borrar).
+	 */
 	private void agregarEliminarProyecto(ArrayList<Proyecto> listProyecto, ArrayList<Tarea> listTarea) {
 		System.out.println();
 		System.out.println("--- Gestión de Proyectos ---");
@@ -116,7 +155,14 @@ public class MenuAdministrador {
 			System.out.println("Opcion invalida.");
 		}
 	}
-
+	
+	/**
+	 * Elimina un proyecto y hace limpieza.
+	 * <p>
+	 * Borra el proyecto y, muy importante, también borra todas las tareas
+	 * asociadas a él para no dejar datos huérfanos.
+	 * </p>
+	 */
 	private void eliminarProyecto(ArrayList<Proyecto> listProyecto, ArrayList<Tarea> listTarea) {
 		Sistema s = Sistema.getSistema();
 		System.out.println();
@@ -157,7 +203,10 @@ public class MenuAdministrador {
 		System.out.println(tareasEliminadas + " tareas asociadas fueron eliminadas.");
 		System.out.println();
 	}
-
+	
+	/**
+	 * Pide los datos y crea un nuevo proyecto en el sistema.
+	 */
 	private void agregarProyecto(ArrayList<Proyecto> listProyecto) {
 		Sistema s = Sistema.getSistema();
 		System.out.print("Ingrese Nombre del nuevo proyecto: ");
@@ -173,7 +222,10 @@ public class MenuAdministrador {
 		System.out.println();
 
 	}
-
+	
+	/**
+	 * Submenú simple para gestionar Tareas (Crear o Borrar).
+	 */
 	private void agregarEliminarTarea(ArrayList<Proyecto> listProyecto, ArrayList<Tarea> listTarea) {
 		System.out.println();
 		System.out.println("--- Gestión de Tareas ---");
@@ -191,7 +243,14 @@ public class MenuAdministrador {
 		}
 
 	}
-
+	
+	/**
+	 * Borra una tarea específica.
+	 * <p>
+	 * La busca por ID y la elimina de dos lugares: la lista general y la lista
+	 * interna del proyecto al que pertenecía.
+	 * </p>
+	 */
 	private void eliminarTarea(ArrayList<Proyecto> listProyecto, ArrayList<Tarea> listTarea) {
 		Sistema s = Sistema.getSistema();
 		System.out.println();
@@ -230,7 +289,16 @@ public class MenuAdministrador {
 
 		System.out.println("Tarea " + idEliminar + " eliminada exitosamente.");
 	}
-
+	
+	/**
+	 * Crea una tarea nueva.
+	 * <p>
+	 * Este método hace tres cosas importantes:
+	 * 1. Valida que el usuario no esté ocupado ese día (Requisito clave).
+	 * 2. Usa el {@link TareaFactory} para crear el objeto correcto.
+	 * 3. Guarda todo en el archivo de texto.
+	 * </p>
+	 */
 	private void agregarTarea(ArrayList<Proyecto> listProyecto, ArrayList<Tarea> listTarea) {
 		Sistema s = Sistema.getSistema();
 		System.out.println("Proyectos disponibles (ID | Nombre):");
@@ -292,7 +360,10 @@ public class MenuAdministrador {
 			System.out.println("ERROR: Tipo de tarea invalido. Tarea no creada.");
 		}
 	}
-
+	
+	/**
+	 * Muestra en pantalla todos los proyectos y sus tareas asociadas.
+	 */
 	private void verListaProyectos(ArrayList<Proyecto> listProyecto) {
 
 		System.out.println(" ");
@@ -306,7 +377,11 @@ public class MenuAdministrador {
 			System.out.println(" ");
 		}
 	}
-
+	
+	/**
+	 * Método auxiliar para leer texto del teclado de forma segura.
+	 * @return El texto ingresado por el usuario.
+	 */
 	private String escanearDesdeTeclado() {
 		Scanner s = new Scanner(System.in);
 		String a = "";
@@ -317,7 +392,9 @@ public class MenuAdministrador {
 		}
 		return a;
 	}
-
+	/**
+	 * Imprime las opciones del menú en consola.
+	 */
 	private void pirntearOpciones() {
 		System.out.println();
 		System.out.println("1) Ver lista completa de proyectos y tareas:");

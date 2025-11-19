@@ -2,8 +2,28 @@ package Taller3poo;
 
 import java.util.*;
 
+/**
+ * Clase que maneja todo lo que puede hacer un Colaborador.
+ * <p>
+ * Aquí el usuario ve sus tareas, actualiza en qué está trabajando y
+ * puede consultar el impacto de sus asignaciones usando el Patrón Visitor.
+ * </p>
+ * @author Matías Collao
+ * @author Lucas Riquelme
+ * @version 1.0
+ */
 public class MenuUsuario {
 
+	/**
+	 * Inicia el menú principal para el colaborador.
+	 * <p>
+	 * Muestra las opciones disponibles y mantiene el programa corriendo
+	 * hasta que el usuario decida salir.
+	 * </p>
+	 * @param listProyecto La lista de proyectos para consultar.
+	 * @param listTarea La lista de tareas para filtrar las propias.
+	 * @param username El nombre del usuario que inició sesión (para saber qué tareas son suyas).
+	 */
 	public void iniciarMenu(ArrayList<Proyecto> listProyecto, ArrayList<Tarea> listTarea, String username) {
 		boolean validacion = true;
 		do {
@@ -31,7 +51,14 @@ public class MenuUsuario {
 		} while (validacion == true);
 
 	}
-
+	/**
+	 * Implementación del Patrón Visitor.
+	 * <p>
+	 * Permite seleccionar una tarea específica y "visitarla" para ver
+	 * qué efecto tiene en el proyecto (si afecta la criticidad, tiempo o calidad).
+	 * </p>
+	 * @param listTarea Lista de tareas donde buscaremos la indicada.
+	 */
 	private void aplicarVisitorEnTareas(ArrayList<Tarea> listTarea) {
 		System.out.println("Tus tareas actuales:");
 
@@ -66,7 +93,12 @@ public class MenuUsuario {
 
 		tareaSeleccionada.aceptar(visitor);
 	}
-
+	/**
+	 * Muestra solo las tareas que pertenecen al usuario conectado.
+	 * <p>
+	 * Filtra la lista global comparando el responsable con el username actual.
+	 * </p>
+	 */
 	private void verTareasAsignadas(String username, ArrayList<Tarea> listTarea) {
 
 		for (Tarea t : listTarea) {
@@ -76,7 +108,13 @@ public class MenuUsuario {
 		}
 		System.out.println(" ");
 	}
-
+	
+	/**
+	 * Permite cambiar el estado de una tarea (ej. de "Pendiente" a "Completada").
+	 * <p>
+	 * El usuario elige la tarea por ID y selecciona el nuevo estado de una lista.
+	 * </p>
+	 */
 	private void actualizarEstadoDeTarea(ArrayList<Tarea> listTarea) {
 		System.out.println("Qué tarea desea actualizar su estado? (ID): ");
 		String tarea = escanearDesdeTeclado();
@@ -106,7 +144,10 @@ public class MenuUsuario {
 		System.out.println(" ");
 
 	}
-
+	
+	/**
+	 * Muestra todos los proyectos existentes en el sistema.
+	 */
 	private void verListaProyectos(ArrayList<Proyecto> listProyecto) {
 		System.out.println(" ");
 		System.out.println("Proyectos: \n");
@@ -116,7 +157,10 @@ public class MenuUsuario {
 		System.out.println(" ");
 
 	}
-
+	
+	/**
+	 * Lee la entrada del teclado controlando posibles errores.
+	 */
 	private String escanearDesdeTeclado() {
 		Scanner s = new Scanner(System.in);
 		String a = "";
@@ -127,7 +171,10 @@ public class MenuUsuario {
 		}
 		return a;
 	}
-
+	
+	/**
+	 * Imprime el menú de opciones en la consola.
+	 */
 	private void pirntearOpciones() {
 		System.out.println("\nBienvenido colaborador, qué deseas hacer?");
 		System.out.println("1) Ver proyectos disponibles:");
