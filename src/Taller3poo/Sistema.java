@@ -3,6 +3,12 @@ package Taller3poo;
 import java.io.*;
 import java.util.*;
 
+/**
+ * Clase principal del sistema encargada de iniciar el programa, cargar datos
+ * desde archivos, gestionar usuarios, proyectos y tareas, y dirigir el flujo
+ * según el rol del usuario. Implementa el patrón Singleton para asegurar una
+ * única instancia.
+ */
 public class Sistema {
 
 	private static Sistema instancia;
@@ -10,6 +16,13 @@ public class Sistema {
 	private ArrayList<Proyecto> listProyecto;
 	private ArrayList<Tarea> listTarea;
 
+	/**
+	 * Método principal que inicializa el programa, carga usuarios, proyectos y
+	 * tareas, solicita el inicio de sesión y ejecuta el menú correspondiente según
+	 * el rol del usuario (Administrador o Colaborador).
+	 *
+	 * @throws IOException si ocurre un problema al leer los archivos de datos
+	 */
 	public void sistema() throws IOException {
 
 		System.out.println("Iniciando el programa... ");
@@ -39,14 +52,32 @@ public class Sistema {
 
 	}
 
+	/**
+	 * Obtiene la lista completa de tareas cargadas en el sistema.
+	 *
+	 * @return lista de tareas
+	 */
 	public ArrayList<Tarea> getListTarea() {
 		return listTarea;
 	}
 
+	/**
+	 * Obtiene la lista completa de usuarios registrados en el sistema.
+	 *
+	 * @return lista de usuarios
+	 */
 	public ArrayList<Usuario> getListUsuario() {
 		return listUsuario;
 	}
 
+	/**
+	 * Solicita el nombre de usuario y contraseña por consola y verifica si existe
+	 * un usuario válido en la lista entregada.
+	 *
+	 * @param listUsuario lista de usuarios disponibles
+	 * @return nombre de usuario si las credenciales son correctas; cadena vacía si
+	 *         no lo son
+	 */
 	private String ingresarUsuario(ArrayList<Usuario> listUsuario) {
 
 		System.out.print("Ingresa usuario: ");
@@ -70,6 +101,12 @@ public class Sistema {
 		return "";
 	}
 
+	/**
+	 * Lee y retorna una línea ingresada por teclado.
+	 *
+	 * @return texto ingresado por el usuario; retorna cadena vacía si ocurre un
+	 *         error
+	 */
 	private String escanearTecldo() {
 		Scanner s = new Scanner(System.in);
 		String a = "";
@@ -81,6 +118,16 @@ public class Sistema {
 		return a;
 	}
 
+	/**
+	 * Carga todas las tareas desde el archivo "tareas.txt", crea objetos Tarea con
+	 * la fábrica correspondiente e incorpora cada tarea al proyecto al que
+	 * pertenece.
+	 *
+	 * @param listProyecto lista de proyectos existentes a los cuales se asociarán
+	 *                     las tareas
+	 * @return lista completa de tareas cargadas
+	 * @throws FileNotFoundException si el archivo "tareas.txt" no se encuentra
+	 */
 	private ArrayList<Tarea> creadoraTareas(ArrayList<Proyecto> listProyecto) throws FileNotFoundException {
 
 		Scanner s = new Scanner(new File("tareas.txt"));
@@ -108,6 +155,13 @@ public class Sistema {
 
 	}
 
+	/**
+	 * Carga todos los proyectos desde el archivo "proyectos.txt" y los transforma
+	 * en objetos Proyecto.
+	 *
+	 * @return lista completa de proyectos cargados
+	 * @throws FileNotFoundException si el archivo "proyectos.txt" no se encuentra
+	 */
 	private ArrayList<Proyecto> creadoraProyectos() throws FileNotFoundException {
 		Scanner s = new Scanner(new File("proyectos.txt"));
 		ArrayList<Proyecto> lista = new ArrayList<>();
@@ -122,6 +176,13 @@ public class Sistema {
 		return lista;
 	}
 
+	/**
+	 * Carga todos los usuarios desde el archivo "usuarios.txt" y los representa
+	 * como objetos Usuario.
+	 *
+	 * @return lista completa de usuarios cargados
+	 * @throws FileNotFoundException si el archivo "usuarios.txt" no se encuentra
+	 */
 	private ArrayList<Usuario> creadoraUsuarios() throws FileNotFoundException {
 
 		Scanner s = new Scanner(new File("usuarios.txt"));
@@ -137,6 +198,11 @@ public class Sistema {
 		return lista;
 	}
 
+	/**
+	 * Retorna la instancia única del sistema (patrón Singleton).
+	 *
+	 * @return instancia única de {@link Sistema}
+	 */
 	public static Sistema getSistema() {
 		if (instancia == null) {
 			instancia = new Sistema();
@@ -144,6 +210,15 @@ public class Sistema {
 		return instancia;
 	}
 
+	/**
+	 * Verifica si un responsable tiene disponibilidad para una fecha dada, es
+	 * decir, si no tiene otra tarea asignada para la misma fecha.
+	 *
+	 * @param responsable nombre del responsable a verificar
+	 * @param fecha       fecha a validar
+	 * @param listaTareas lista de todas las tareas existentes
+	 * @return true si está disponible, false si ya tiene una tarea asignada ese día
+	 */
 	public boolean verificarDisponibilidad(String responsable, String fecha, ArrayList<Tarea> listaTareas) {
 		for (Tarea t : listaTareas) {
 			if (t.getResponsable().equalsIgnoreCase(responsable) && t.getFecha().equals(fecha)) {
@@ -153,6 +228,11 @@ public class Sistema {
 		return true;
 	}
 
+	/**
+	 * Guarda todas las tareas del sistema en el archivo "tareas.txt" utilizando el
+	 * formato separado por barras verticales (|). Notifica si la operación fue
+	 * exitosa o si ocurrió un error.
+	 */
 	public void guardarTareas() {
 		try (FileWriter fw = new FileWriter("tareas.txt"); BufferedWriter bw = new BufferedWriter(fw)) {
 
@@ -169,10 +249,11 @@ public class Sistema {
 		}
 	}
 
-	public ArrayList<Proyecto> getListProyecto() {
-		return listProyecto;
-	}
-
+	/**
+	 * Guarda todos los proyectos del sistema en el archivo "proyectos.txt"
+	 * utilizando el formato separado por barras verticales (|). Notifica si la
+	 * operación fue exitosa o si ocurrió un error.
+	 */
 	public void guardarProyectos() {
 		try (FileWriter fw = new FileWriter("proyectos.txt"); BufferedWriter bw = new BufferedWriter(fw)) {
 
