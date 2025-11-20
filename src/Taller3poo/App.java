@@ -19,7 +19,7 @@ public class App {
 	 * Oobtiene la instancia única del {@link Sistema} y
 	 * lo ejecuta.
 	 * </p>.
-	 * @throws tiene IOException por si falla la lectura de los archivos al iniciar.
+	 * @throws IOException por si falla la lectura de los archivos al iniciar.
 	 */
 	public static void main(String[] args) throws IOException {
 		Sistema s = Sistema.getSistema();
