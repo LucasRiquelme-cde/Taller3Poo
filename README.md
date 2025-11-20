@@ -38,9 +38,7 @@ El visitante (ActivarVisitor) recorre las tareas y muestra mensajes específicos
 
 Documentación JavaDoc:
 El código fuente ha sido documentado siguiendo el estándar JavaDoc.
-Puedes consultar la documentación técnica completa (clases, métodos y parámetros) navegando a la carpeta de documentación generada:
-Ver Documentación JavaDoc Completa
-(Nota: Para visualizar correctamente el JavaDoc en local, abre el archivo doc/index.html en tu navegador web).
+Puedes consultar la documentación técnica completa (clases, métodos y parámetros).
 
 Persistencia de Datos:
 El sistema utiliza archivos de texto plano (.txt) como base de datos simple. Los cambios realizados en la ejecución (agregar tareas, proyectos o eliminar elementos) se guardan automáticamente.
