@@ -10,7 +10,6 @@ Integrantes del Grupo:
 
 -GitHub User: @MatiasCollao
 
-
 -Nombre: Lucas Riquelme
 
 -RUT: 21.943.208-9
