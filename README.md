@@ -3,13 +3,19 @@ Taller 3 POO - Sistema de Gestión de Proyectos
 Integrantes del Grupo:
 
 -Nombre: Matías Collao
+
 -RUT: 22.060.152-8
+
 -Carrera: Ingeniería Civil en Computación e Informática
+
 -GitHub User: @MatiasCollao
 
 -Nombre: Lucas Riquelme
+
 -RUT: 21.943.208-9
+
 -Carrera: Ingeniería Civil en Computación e Informática
+
 -GitHub User: @LucasRiquelme-cde
 
 Descripción General del Proyecto:
