@@ -1,6 +1,7 @@
 # Taller3Poo
 Taller 3 POO - Sistema de Gestión de Proyectos
 Integrantes del Grupo:
+
 -Nombre: Matías Collao
 -RUT: 22.060.152-8
 -Carrera: Ingeniería Civil en Computación e Informática
